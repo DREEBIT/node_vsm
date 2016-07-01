@@ -1,0 +1,11 @@
+{
+  "name": "vsm",
+  "version": "0.0.1",
+  "description": "VSM Adapter",
+  "repository": {
+    "type": "git",
+    "url": "http://172.22.8.41:7990/stash/scm/nm/vsm.git"
+  },
+  "author": "Nico Ziegler <nico.ziegler@dreebit.com>",
+  "license": "ISC"
+}
