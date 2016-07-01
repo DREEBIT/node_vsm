@@ -1,0 +1,125 @@
+<h3>
+  VSM Configuration
+  <small>Credentials to connect to VSM</small>
+</h3>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">Form</div>
+      <div class="panel-body">
+        <form name="vm.form.vsmConfigurationForm" class="form-horizontal" ng-submit="vm.save()">
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Connection type</label>
+            <div class="col-lg-10">
+              <ui-select ng-model="vm.vsmConfiguration.type" theme="bootstrap">
+                <ui-select-match placeholder="Select a protocol">{{ $select.selected.title }}</ui-select-match>
+                <ui-select-choices repeat="protocol.key as protocol in vm.protocols | orderBy: title">
+                  <div ng-bind-html="protocol.title"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <h4 class="col-sm-2 control-label">Connection</h4>
+            <div class="col-sm-10"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Title</label>
+            <div class="col-lg-10">
+              <input type="text" placeholder="Title" class="form-control" ng-model="vm.vsmConfiguration.title" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Host</label>
+            <div class="col-lg-10">
+              <input type="text" placeholder="HOST" class="form-control" ng-model="vm.vsmConfiguration.host" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Auth token</label>
+            <div class="col-lg-10">
+              <input type="text" placeholder="Auth token" class="form-control" ng-model="vm.vsmConfiguration.authToken" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">UUID</label>
+            <div class="col-lg-10">
+              <input type="text" placeholder="UUID" class="form-control" ng-model="vm.vsmConfiguration.uuid" />
+            </div>
+          </div>
+          <div ng-show="vm.vsmConfiguration.type == 'smtp'" class="ng-hide">
+            <div class="form-group">
+              <h4 class="col-sm-2 control-label">SMTP</h4>
+              <div class="col-sm-10"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-lg-2 control-label">Host</label>
+              <div class="col-lg-10">
+                <input type="text" placeholder="HOST" class="form-control" ng-model="vm.vsmConfiguration.smtp.host" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">Port</label>
+              <div class="col-lg-10">
+                <input type="text" placeholder="PORT" class="form-control" ng-model="vm.vsmConfiguration.smtp.port" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">Secure</label>
+              <div class="col-lg-10">
+                <ui-select ng-model="vm.vsmConfiguration.smtp.secure" theme="bootstrap">
+                  <ui-select-match placeholder="Select secure configuration">{{$select.selected.label}}</ui-select-match>
+                  <ui-select-choices repeat="secure.value as secure in [{label:'Yes',value:true},{label:'No',value:false}]">
+                    {{ secure.label }}
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">User</label>
+              <div class="col-lg-10">
+                <input type="text" placeholder="USER" class="form-control" ng-model="vm.vsmConfiguration.smtp.user" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">Password</label>
+              <div class="col-lg-10">
+                <input type="password" placeholder="PASSWORD" class="form-control" ng-model="vm.vsmConfiguration.smtp.password" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">From</label>
+              <div class="col-lg-10">
+                <input type="text" placeholder="FROM" class="form-control" ng-model="vm.vsmConfiguration.smtp.from" />
+              </div>
+            </div>
+          </div>
+          <div ng-show="vm.vsmConfiguration.url.length > 0" class="col-lg-offset-2">Please go to <a href="{{vm.vsmConfiguration.url}}/#/admin/connectorAdmin" target="_blank">VSM - Connector Admin</a> to get UUID and Auth-Token</div>
+
+          <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+              <button type="submit" class="btn btn-labeled btn-primary mr">
+                <span class="btn-label">
+                  <i class="fa fa-check"></i>
+                </span>
+                Save
+              </button>
+
+              <button type="button" class="btn btn-labeled btn-default pull-right" ng-click="vm.testConfiguration()" ng-show="vm.vsmConfiguration.authToken && vm.vsmConfiguration.uuid && vm.vsmConfiguration.host " ng-disabled="vm.form.vsmConfigurationForm.$dirty" ng-class="{ 'btn-success': (!vm.form.vsmConfigurationForm.$dirty && vm.vsmConfigurationSuccess) }">
+                <span class="btn-label">
+                    <i class="fa fa-lightbulb-o"></i>
+                </span>
+                Test configuration
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="row p">
+  <div class="pull-left mr-lg">
+    <img ng-src="{{ getComponentImage() }}" alt="{{ vsmComponent.name }}" class="img-responsive img-thumbnail img-circle" />
+  </div>
+  <div class="pull-left">
+    <h2 class="m0">
+      {{ vsmComponent.name }}
+      <small>{{ vsmComponent.componentType.name }}</small>
+    </h2>
+    <p class="m0" ng-if="vsmComponent.serialNo">Serial number: {{ vsmComponent.serialNo }}</p>
+    <p class="m0" ng-if="vsmComponent.product.catalogNo">Catalog number: {{ vsmComponent.product.catalogNo }}</p>
+    <p class="m0" ng-if="vsmComponent.product.manufacturer.name">Manufacturer: {{ vsmComponent.product.manufacturer.name }}</p>
+  </div>
+</div>
+<hr class="mt-sm mb">
+<div class="row">
+  <div ng-repeat="attribute in vsmComponent.attributes | filter:blacklist" class="col-md-6">
+    <div class="row form-group">
+      <label class="col-sm-6 control-label pt0">{{ attribute.name }}</label>
+      <div class="col-sm-6">
+        {{ getFormatedAttributeValue(attribute, vsmComponent) }}
+      </div>
+    </div>
+  </div>
+</div>
