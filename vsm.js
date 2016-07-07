@@ -1,11 +1,9 @@
 "use strict";
 
-var winston = require("winston"),
-  HttpAdapter = require("./adapter/http.adapter"),
+var HttpAdapter = require("./adapter/http.adapter"),
   SmtpAdapter = require("./adapter/smtp.adapter");
 
-function Vsm(configuration)
-{
+function Vsm(configuration) {
   this.configuration = configuration;
 
   if (configuration.type === "smtp") {
@@ -19,7 +17,7 @@ Vsm.prototype.request = function (options, callback) {
   this.adapter.send(options, callback);
 };
 
-Vsm.prototype.pushAttributes = function (component, attribute, data) {
+Vsm.prototype.pushAttributes = function (component, attribute, data, callback) {
   var body = {};
   body[attribute.vsmAttributeIndex] = data;
 
@@ -28,15 +26,11 @@ Vsm.prototype.pushAttributes = function (component, attribute, data) {
     path: "/rest/components/" + component.vsmId,
     body: body
   }, function (statusCode, requestRes, requestErr) {
-    if (statusCode < 300) {
-      winston.info("Component (" + component.title + ") with VSM ID " + component.vsmId + " has been updated for: " + attribute.title + " with value: " + data);
-    } else {
-      winston.error("Component (" + component.title + ") with VSM ID " + component.vsmId + " could not be updated for attribute: " + attribute.title, requestErr);
-    }
+    callback(statusCode, requestRes, requestErr);
   });
 };
 
-Vsm.prototype.pushAlert = function (component, monitoringAlert) {
+Vsm.prototype.pushAlert = function (component, monitoringAlert, callback) {
   this.request({
     method: "POST",
     path: "/rest/components/" + component.vsmId + "/logs/error",
@@ -46,11 +40,7 @@ Vsm.prototype.pushAlert = function (component, monitoringAlert) {
       "level": monitoringAlert.level
     }
   }, function (statusCode, requestRes, requestErr) {
-    if (statusCode < 300) {
-      winston.info("Alert: Component (" + component.title + ") with VSM ID " + component.vsmId);
-    } else {
-      winston.error("Error posting alert to Component (" + component.title + ") with VSM ID " + component.vsmId, requestErr);
-    }
+    callback(statusCode, requestRes, requestErr);
   });
 };
 

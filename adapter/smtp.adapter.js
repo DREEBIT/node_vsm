@@ -1,7 +1,6 @@
 "use strict";
 
-var winston = require("winston"),
-  mailer = require("nodemailer");
+var mailer = require("nodemailer");
 
 function SmtpAdapter(configuration) {
   this.configuration = configuration;
@@ -40,8 +39,7 @@ SmtpAdapter.prototype.send = function (options, callback) {
 
   this.transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      winston.error("Nodemailer transporter error - " + error.message);
-      callback(400, {
+      callback(500, {
         success: false,
         message: error.message
       }, null);
