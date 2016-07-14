@@ -1,7 +1,7 @@
 "use strict";
 
 var should = require('should'),
-  VSMApi = require('./../vsm');
+  VSMApi = require('./../index');
 
 describe('VSMApi', function() {
   it('should auth require', function (done) {
